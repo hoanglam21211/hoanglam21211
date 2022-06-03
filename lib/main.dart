@@ -1,14 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_getx_template/app/common/util/initializer.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_getx_template/app/common/values/strings.dart';
+import 'package:flutter_getx_template/app/common/values/styles/theme.dart';
 import 'package:flutter_getx_template/app/routes/app_pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import 'app/modules/widgets/base_widget.dart';
+import 'app/common/util/initializer.dart';
 
+const String MATERIAL_SCREEN = "/material_screen";
+const String CUPERTINO_SCREEN = "/cupertino_screen";
 void main() {
-  Initializer.init(() {
-    runApp(const MyApp());
-  });
+  SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent));
+  // runApp(const MyApp());
+  // Initializer.instance.init(() {
+  runApp(const MyApp());
+  // });
 }
 
 class MyApp extends StatelessWidget {
@@ -16,18 +24,25 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
-      builder: () => GetMaterialApp(
-        title: Strings.appName,
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.theme,
-        initialRoute: AppPages.INITIAL,
-        getPages: AppPages.routes,
-        initialBinding: InitialBindings(),
-        builder: (_, child) => BaseWidget(
-          child: child ?? const SizedBox.shrink(),
-        ),
+    ScreenUtil.init(
+      BoxConstraints(
+        maxWidth: Get.width,
+        maxHeight: Get.height,
       ),
+      designSize: Get.size,
+    );
+
+    return GetMaterialApp(
+      title: Strings.appName,
+      debugShowCheckedModeBanner: false,
+      // theme: AppTheme.theme,
+
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
+      // initialBinding: InitialBindings(),
+      // builder: (_, child) => BaseWidget(a
+      //   child: child ?? const SizedBox.shrink(),
+      // ),
     );
   }
 }
